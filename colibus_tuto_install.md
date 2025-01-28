@@ -12,7 +12,7 @@ To install all the dependencies and the simulator, you can run the following com
 
 ```bash
 locale
-`
+
 # Update and install locales
 sudo apt update && sudo apt install locales &&
 sudo locale-gen en_US en_US.UTF-8 &&
@@ -42,7 +42,8 @@ sudo apt install -y python3-rosdep &&
 sudo rosdep init &&
 rosdep update
 
-# Source ROS 2 setup.bash in .bashrc
+# Source ROS 2 setup.bash in .bashr`
+source /opt/ros/humble/setup.bash
 echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 
 # Install colcon and Gazebo
@@ -53,8 +54,43 @@ sudo apt update &&
 sudo apt-get install ros-humble-ros-gz 
 sudo apt install gazebo -y
 ```
+------------------------------
+### Clone the Colibus Repository
+
+Run the following command to clone the Colibus repository:
+
+```bash
+git clone https://github.com/ClementVNN/FinalColibus.git 
+```
+
+------------------------------
+
+
+Follow these steps to replace the placeholder path in the `CMakeLists.txt` file with the actual path to your `colibus_main` directory.
+
+---
+
+### Identify the Current Directory Path
+
+First, determine the full path to your `colibus_main` directory. Run the following command in your terminal:
+
+```bash
+pwd
+````
+
+Then replace the placeholder path in the `CMakeLists.txt` file with the actual path to your `colibus_main` directory. Run the following command in your terminal:
+
+```bash
+sed -i 's|/home/ubuntu/FinalColibus/colibus-main|/home/ubuntu/colibus-main|g' /home/ubuntu/FinalColibus/colibus-main/src/colibus_simulator/CMakeLists.txt
+```
+
+-----------------------------
+
+### Build and Install the Colibus Simulator
 
 After running the above commands, you can install the Colibus Simulator by running the following commands:
+
+Verify that you are running from the `colibus_main` directory:
 
 ```bash
 colcon build --symlink-install
@@ -64,7 +100,7 @@ You will find that the simulator is installed in the `install` directory.
 You can verify the installation by running the following command:
 
 ```bash
-source ~/colibus_main/install/setup.bash
+source install/setup.bash
 ros2 pkg list | grep colibus
 ```
 
@@ -72,20 +108,25 @@ ros2 pkg list | grep colibus
 To finish this part, you can add the following line to your `.bashrc` file:
 
 ```bash
-echo "source ~/colibus_main/install/setup.bash" >> ~/.bashrc
+echo "source install/setup.bash" >> ~/.bashrc
 ```
 
 --------------------------
 
-*When we say in another terminal, it means it has to be sourced with the command, and we assume you are working from `~/colibus_main`* : 
+### *When we say in another terminal, it means it has to be sourced with the command below, and we assume you are working from the `colibus_main` dir* : 
 ```
-source ~/colibus_main/install/setup.bash 
-or 
+source install/setup.bash 
+```
+OR
+
+```
 source ~/.bashrc
 ```
+------------------------------------
 
+### Running the Simulator : 
 
-LIDAR + Camera: 
+#### LIDAR + Camera: 
 
 ```
 ros2 launch colibus_simulator launch_sim.launch.py worlds:=/src/colibus_simulator/worlds/obstacles.world
@@ -96,15 +137,15 @@ ros2 launch colibus_simulator launch_sim.launch.py worlds:=/src/colibus_simulato
 ros2 launch teleop_twist_keyboard teleop_twist_keyboard_launch.py
 ```
 
-In rviz :
-Robot Model : /robot_description
-Laser Scan : /scan (Size : 0.05)
-Image : /camera/image_raw 
-Camera : /camera/image_raw
+In rviz : \
+Robot Model : /robot_description \
+Laser Scan : /scan (Size : 0.05) \
+Image : /camera/image_raw \
+Camera : /camera/image_raw 
 
 
 ---------------------------------------------------------------
-SLAM (Simultaneous Localization and Mapping) : 
+#### SLAM (Simultaneous Localization and Mapping) : 
 
 ```
 sudo apt install ros-humble-slam-toolbox -y 
@@ -133,7 +174,7 @@ or in rviz, click on the Panel option (above) and select the SlamToolBox Plugin
 
 
 -----------------------------------------------------------------------
-Navigation : 
+#### Navigation : 
 
 ```
 sudo apt install ros-humble-navigation2 -y &&
@@ -173,3 +214,7 @@ Updated Topic Map : /global_costmap/costmap
 Color Scheme : costmap
 
 Click on 2D global Pose in Rviz, and with the mouse select a place, the robot will go to it. 
+
+----------------------------------
+
+Good Luck !
