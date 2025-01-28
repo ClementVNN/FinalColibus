@@ -51,7 +51,8 @@ sudo apt update &&
 sudo apt install -y python3-colcon-common-extensions
 
 sudo apt update && 
-sudo apt-get install ros-humble-ros-gz 
+sudo apt-get install ros-humble-ros-gz &&
+sudo apt install ros-humble-gazebo-ros-pkgs -y &&
 sudo apt install gazebo -y
 ```
 ------------------------------
@@ -61,7 +62,7 @@ Run the following command to clone the Colibus repository:
 
 ```bash
 git clone https://github.com/ClementVNN/FinalColibus.git &&
-cd FinalColibus
+cd FinalColibus/colibus-main
 ```
 
 ------------------------------
@@ -127,15 +128,29 @@ source ~/.bashrc
 
 ### Running the Simulator : 
 
+
+Packages to install : 
+
+```
+sudo apt update &&
+sudo apt install ros-humble-slam-toolbox -y &&
+sudo apt install ros-humble-navigation2 -y &&
+sudo apt install ros-humble-nav2-bringup -y &&
+sudo apt install ros-humble-twist-mux -y &&
+sudo apt install ros-humble-ros2-control -y &&
+sudo apt install ros-humble-ros2-controllers -y &&
+sudo apt install ros-humble-teleop-twist-keyboard -y 
+```
+
 #### LIDAR + Camera: 
 
 ```
-ros2 launch colibus_simulator launch_sim.launch.py worlds:=/src/colibus_simulator/worlds/obstacles.world
+ros2 launch colibus_simulator launch_sim.launch.py world:=obstacles.world
 ```
 
 (Optional) To control the robot with the keyboard, open a new terminal and run the following command:
 ```
-ros2 launch teleop_twist_keyboard teleop_twist_keyboard_launch.py
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
 
 In rviz : \
@@ -148,9 +163,7 @@ Camera : /camera/image_raw
 ---------------------------------------------------------------
 #### SLAM (Simultaneous Localization and Mapping) : 
 
-```
-sudo apt install ros-humble-slam-toolbox -y 
-```
+
 
 ```
 ros2 launch colibus_simulator online_async_slam.launch.py use_sim_time:=True 
@@ -163,7 +176,7 @@ ros2 launch slam_toolbox online_async_slam.launch.py use_sim_time:=True
 
 (Optional) To control the robot with the keyboard, open a new terminal and run the following command:
 ```
-ros2 launch teleop_twist_keyboard teleop_twist_keyboard_launch.py
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
 
 In rviz : \
@@ -177,11 +190,6 @@ or in rviz, click on the Panel option (above) and select the SlamToolBox Plugin
 -----------------------------------------------------------------------
 #### Navigation : 
 
-```
-sudo apt install ros-humble-navigation2 -y &&
-sudo apt install ros-humble-nav2-bringup -y &&
-sudo apt install ros-humble-twist-mux -y 
-```
 
 ```
 ros2 run twist_mux twist_mux --ros-args --params-file ./src/colibus_simulator/config/twist_mux.yaml -r cmd_vel_out:=diff_cont/cmd_vel_unstamped 
@@ -190,7 +198,7 @@ ros2 run twist_mux twist_mux --ros-args --params-file ./src/colibus_simulator/co
 
 In a new terminal, run the following command: 
 ```
-ros2 launch colibus_simulator launch_sim.launch.py worlds:=/src/colibus_simulator/worlds/obstacles.world
+ros2 launch colibus_simulator launch_sim.launch.py world:=/src/colibus_simulator/worlds/obstacles.world
 ```
 
 
