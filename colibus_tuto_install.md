@@ -60,7 +60,8 @@ sudo apt install gazebo -y
 Run the following command to clone the Colibus repository:
 
 ```bash
-git clone https://github.com/ClementVNN/FinalColibus.git 
+git clone https://github.com/ClementVNN/FinalColibus.git &&
+cd FinalColibus
 ```
 
 ------------------------------
@@ -81,7 +82,7 @@ pwd
 Then replace the placeholder path in the `CMakeLists.txt` file with the actual path to your `colibus_main` directory. Run the following command in your terminal:
 
 ```bash
-sed -i 's|/home/ubuntu/FinalColibus/colibus-main|/home/ubuntu/colibus-main|g' /home/ubuntu/FinalColibus/colibus-main/src/colibus_simulator/CMakeLists.txt
+sed -i 's|/home/toto/ros2_ws|/home/ubuntu/colibus-main|g' /home/ubuntu/FinalColibus/colibus-main/src/colibus_simulator/CMakeLists.txt
 ```
 
 -----------------------------
