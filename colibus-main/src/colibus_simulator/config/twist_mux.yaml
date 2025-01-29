@@ -1,16 +1,12 @@
 twist_mux:
   ros__parameters:
-    topics: 
-      - name: navigation
+    topics:
+      navigation:
         topic: /cmd_vel
         timeout: 0.5
         priority: 10
-      - name: tracker
+      tracker:
         topic: /cmd_vel_tracker
         timeout: 0.5
         priority: 20
-      - name: joystick
-        topic: /cmd_vel_joy
-        timeout: 0.5
-        priority: 100
-    output: /cmd_vel_out
+    output_topic: /cmd_vel_out  
