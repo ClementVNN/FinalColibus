@@ -8,7 +8,8 @@ This tutorial assumes that you are working from your home directory. If you are 
 
 ## Installation Steps
 
-To install all the dependencies and the simulator, you can run the following command in the terminal:
+To install all the dependencies, you can run the following command in the terminal. 
+It will take some time to install all the dependencies : 10 to 45 min at worst depending on your internet connection and harware.  
 
 ```bash
 locale
@@ -83,8 +84,15 @@ pwd
 Then replace the placeholder path in the `CMakeLists.txt` file with the actual path to your `colibus_main` directory. Run the following command in your terminal:
 
 ```bash
-sed -i 's|/home/toto/ros2_ws|/home/ubuntu/colibus-main|g' /home/ubuntu/FinalColibus/colibus-main/src/colibus_simulator/CMakeLists.txt
+sed -i 's|/home/toto/ws/ros2_ws|/home/$USER/FinalColibus/colibus-main|g' /home/ubuntu/FinalColibus/colibus-main/src/colibus_simulator/CMakeLists.txt
 ```
+
+Or run the following command (Untested) from your working directory
+
+```bash
+sed -i "s|/home/toto/ws/ros2_ws|$(pwd)/colibus-main|g" $(pwd)/colibus-main/src/colibus_simulator/CMakeLists.txt
+``` 
+
 
 -----------------------------
 
@@ -163,7 +171,13 @@ Camera : /camera/image_raw
 ---------------------------------------------------------------
 #### SLAM (Simultaneous Localization and Mapping) : 
 
+Lunch gazebo with the world file : 
 
+````
+ros2 launch colibus_simulator launch_sim.launch.py world:=obstacles.world
+````
+
+In another terminal, run the following command: 
 
 ```
 ros2 launch colibus_simulator online_async_slam.launch.py use_sim_time:=True 
@@ -171,7 +185,7 @@ ros2 launch colibus_simulator online_async_slam.launch.py use_sim_time:=True
 
 *If not working, try to run the following command*: 
 ```
-ros2 launch slam_toolbox online_async_slam.launch.py use_sim_time:=True
+ros2 launch slam_toolbox online_async_launch.py use_sim_time:=True
 ```
 
 (Optional) To control the robot with the keyboard, open a new terminal and run the following command:
@@ -198,20 +212,13 @@ ros2 run twist_mux twist_mux --ros-args --params-file ./src/colibus_simulator/co
 
 In a new terminal, run the following command: 
 ```
-ros2 launch colibus_simulator launch_sim.launch.py world:=/src/colibus_simulator/worlds/obstacles.world
-```
-
-
-In another terminal, run the following command:
-
-```
-ros2 launch slam_toolbox online_async_slam.launch.py params_file:=./src/colibus_simulator/config use_sim_time:=True
+ros2 launch colibus_simulator launch_sim.launch.py world:=obstacles.world
 ```
 
 In another terminal, run :
 
 ```
-ros2 launch nav2_bringup navigation_launch.py use_sim_time:=True map:=/src/colibus_simulator/maps/mapper_params_online_async.yaml 
+ros2 launch nav2_bringup navigation_launch.py use_sim_time:=True map:=./src/colibus_simulator/maps/mapper_params_online_async.yaml 
 ```
 
 
